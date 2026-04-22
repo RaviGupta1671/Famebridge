@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>FameBridge – Advertising • PR • Consultancy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+/* ===== RESET & ROOT ===== */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --gold:       #E8A800;
+  --gold-light: #F5C842;
+  --gold-dark:  #B8860B;
+  --purple:     #6B2FA0;
+  --purple-mid: #8B44C8;
+  --purple-light:#C084FC;
+  --blue-acc:   #4F46E5;
+  --dark:       #0D0A1A;
+  --dark-2:     #150F2A;
+  --dark-3:     #1E1635;
+  --text:       #F0EAF8;
+  --text-muted: #A89FC0;
+  --radius:     16px;
+  --radius-lg:  28px;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--dark);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background: var(--dark); }
+::-webkit-scrollbar-thumb { background: var(--purple); border-radius:3px; }
+
+/* ===== NAV ===== */
+nav {
+  position: fixed; top:0; left:0; right:0; z-index:1000;
+  display:flex; align-items:center; justify-content:space-between;
+  padding: 18px 6%;
+  background: rgba(13,10,26,0.85);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(232,168,0,0.12);
+  transition: all .3s;
+}
+nav.scrolled { padding:12px 6%; background:rgba(13,10,26,0.97); }
+.nav-logo { display:flex; align-items:center; gap:14px; text-decoration:none; }
+.nav-logo img { height:48px; width:auto; }
+.nav-logo-text { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:700; }
+.nav-logo-text span:first-child { color:var(--gold); }
+.nav-logo-text span:last-child  { color:var(--purple-light); }
+.nav-links { display:flex; gap:36px; list-style:none; }
+.nav-links a {
+  text-decoration:none; color:var(--text-muted); font-size:.9rem; font-weight:500;
+  letter-spacing:.04em; text-transform:uppercase; transition:color .25s;
+  position:relative;
+}
+.nav-links a::after {
+  content:''; position:absolute; bottom:-4px; left:0; right:0; height:2px;
+  background: linear-gradient(90deg,var(--gold),var(--purple-light));
+  transform:scaleX(0); transform-origin:left; transition:transform .3s;
+}
+.nav-links a:hover { color:var(--text); }
+.nav-links a:hover::after { transform:scaleX(1); }
+.nav-cta {
+  background: linear-gradient(135deg,var(--gold) 0%,var(--gold-dark) 100%);
+  color:#0D0A1A; border:none; padding:10px 26px; border-radius:50px;
+  font-weight:700; font-size:.88rem; cursor:pointer; letter-spacing:.04em;
+  text-transform:uppercase; transition:transform .2s, box-shadow .2s;
+  text-decoration:none;
+}
+.nav-cta:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(232,168,0,.35); }
+.hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer; }
+.hamburger span { width:24px; height:2px; background:var(--gold); border-radius:2px; transition:.3s; }
+
+/* ===== HERO ===== */
+#hero {
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  text-align:center; position:relative; overflow:hidden; padding:120px 6% 80px;
+}
+.hero-bg {
+  position:absolute; inset:0; z-index:0;
+  background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(107,47,160,.35) 0%, transparent 70%),
+              radial-gradient(ellipse 60% 50% at 80% 80%, rgba(232,168,0,.12) 0%, transparent 60%),
+              radial-gradient(ellipse 50% 40% at 10% 70%, rgba(79,70,229,.15) 0%, transparent 60%),
+              var(--dark);
+}
+.hero-grid {
+  position:absolute; inset:0; z-index:0;
+  background-image: linear-gradient(rgba(107,47,160,.06) 1px,transparent 1px),
+                    linear-gradient(90deg,rgba(107,47,160,.06) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+.hero-orb {
+  position:absolute; border-radius:50%; filter:blur(80px); animation:float 6s ease-in-out infinite;
+}
+.hero-orb-1 { width:400px; height:400px; background:rgba(107,47,160,.25); top:-100px; right:-80px; animation-delay:0s; }
+.hero-orb-2 { width:300px; height:300px; background:rgba(232,168,0,.12); bottom:-60px; left:-60px; animation-delay:3s; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-20px)} }
+
+.hero-content { position:relative; z-index:2; max-width:860px; }
+.hero-tag {
+  display:inline-flex; align-items:center; gap:8px;
+  border:1px solid rgba(232,168,0,.4); padding:6px 20px; border-radius:50px;
+  font-size:.8rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gold);
+  margin-bottom:32px; background:rgba(232,168,0,.07);
+  animation:fadeUp .8s .2s both;
+}
+.hero-tag span { width:6px; height:6px; border-radius:50%; background:var(--gold); animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+.hero-h1 {
+  font-family:'Playfair Display',serif; font-size:clamp(2.8rem,7vw,5.2rem);
+  line-height:1.08; font-weight:900; margin-bottom:24px;
+  animation:fadeUp .8s .35s both;
+}
+.hero-h1 .gold { color:var(--gold); }
+.hero-h1 .purple { color:var(--purple-light); }
+
+.hero-sub {
+  font-size:clamp(1rem,2vw,1.2rem); color:var(--text-muted);
+  line-height:1.7; max-width:620px; margin:0 auto 44px;
+  animation:fadeUp .8s .5s both;
+}
+.hero-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; animation:fadeUp .8s .65s both; }
+.btn-primary {
+  background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+  color:#0D0A1A; padding:14px 36px; border-radius:50px; font-weight:700;
+  font-size:1rem; text-decoration:none; letter-spacing:.03em;
+  transition:transform .2s, box-shadow .2s;
+  box-shadow:0 4px 24px rgba(232,168,0,.3);
+}
+.btn-primary:hover { transform:translateY(-3px); box-shadow:0 12px 36px rgba(232,168,0,.45); }
+.btn-outline {
+  border:2px solid var(--purple-light); color:var(--purple-light);
+  padding:12px 34px; border-radius:50px; font-weight:600; font-size:1rem;
+  text-decoration:none; letter-spacing:.03em; transition:all .25s;
+}
+.btn-outline:hover { background:var(--purple-light); color:var(--dark); transform:translateY(-3px); }
+
+.hero-stats {
+  display:flex; gap:48px; justify-content:center; flex-wrap:wrap;
+  margin-top:72px; animation:fadeUp .8s .8s both;
+}
+.stat { text-align:center; }
+.stat-num {
+  font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:900;
+  background:linear-gradient(135deg,var(--gold),var(--purple-light));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;
+}
+.stat-label { font-size:.82rem; color:var(--text-muted); letter-spacing:.08em; text-transform:uppercase; margin-top:4px; }
+
+/* ===== SECTION COMMON ===== */
+section { padding:100px 6%; }
+.section-label {
+  display:inline-block; font-size:.75rem; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--gold); background:rgba(232,168,0,.1); border:1px solid rgba(232,168,0,.25);
+  padding:5px 18px; border-radius:50px; margin-bottom:18px;
+}
+.section-title {
+  font-family:'Playfair Display',serif; font-size:clamp(2rem,4.5vw,3.2rem);
+  font-weight:900; line-height:1.15; margin-bottom:18px;
+}
+.section-title .accent { color:var(--purple-light); }
+.section-sub { color:var(--text-muted); font-size:1.05rem; line-height:1.75; max-width:560px; }
+.text-center { text-align:center; }
+.text-center .section-sub { margin:0 auto; }
+.divider {
+  width:64px; height:3px; margin:24px auto;
+  background:linear-gradient(90deg,var(--gold),var(--purple-light));
+  border-radius:2px;
+}
+
+/* ===== ABOUT ===== */
+#about { background:var(--dark-2); }
+.about-grid {
+  display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; max-width:1200px; margin:0 auto;
+}
+.about-visual {
+  position:relative; display:flex; justify-content:center; align-items:center;
+}
+.about-card-main {
+  background:linear-gradient(135deg,var(--dark-3),rgba(107,47,160,.25));
+  border:1px solid rgba(232,168,0,.2); border-radius:var(--radius-lg);
+  padding:44px; position:relative; overflow:hidden;
+  box-shadow:0 24px 60px rgba(0,0,0,.4);
+}
+.about-card-main::before {
+  content:''; position:absolute; top:0; right:0; width:120px; height:120px;
+  background:radial-gradient(circle,rgba(232,168,0,.2),transparent 70%);
+}
+.about-logo { width:180px; height:auto; display:block; margin:0 auto 24px; }
+.about-tagline { text-align:center; font-size:.9rem; letter-spacing:.1em; text-transform:uppercase; color:var(--gold); }
+
+.floating-badge {
+  position:absolute; background:var(--dark-3);
+  border:1px solid rgba(232,168,0,.3); border-radius:12px;
+  padding:12px 18px; font-size:.82rem; font-weight:600;
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
+  animation:float 5s ease-in-out infinite;
+}
+.floating-badge-1 { top:-20px; right:-20px; color:var(--gold); animation-delay:.5s; }
+.floating-badge-2 { bottom:-20px; left:-20px; color:var(--purple-light); animation-delay:2s; }
+
+.about-text .section-sub { max-width:100%; }
+.about-features { list-style:none; margin-top:32px; display:flex; flex-direction:column; gap:14px; }
+.about-features li {
+  display:flex; align-items:center; gap:12px;
+  font-size:.95rem; color:var(--text-muted);
+}
+.about-features li::before {
+  content:'✦'; color:var(--gold); font-size:1rem; flex-shrink:0;
+}
+
+/* ===== SERVICES ===== */
+#services { background:var(--dark); }
+.services-header { text-align:center; margin-bottom:64px; }
+.services-grid {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:24px; max-width:1200px; margin:0 auto;
+}
+.service-card {
+  background:var(--dark-3); border:1px solid rgba(107,47,160,.2);
+  border-radius:var(--radius); padding:36px 30px; position:relative; overflow:hidden;
+  transition:transform .3s, border-color .3s, box-shadow .3s;
+  cursor:default;
+}
+.service-card::before {
+  content:''; position:absolute; inset:0; opacity:0; transition:opacity .3s;
+  background:linear-gradient(135deg,rgba(232,168,0,.06),rgba(107,47,160,.1));
+}
+.service-card:hover { transform:translateY(-8px); border-color:rgba(232,168,0,.5); box-shadow:0 20px 50px rgba(107,47,160,.2); }
+.service-card:hover::before { opacity:1; }
+.service-icon {
+  width:56px; height:56px; border-radius:14px; display:flex; align-items:center; justify-content:center;
+  font-size:1.6rem; margin-bottom:22px;
+  background:linear-gradient(135deg,rgba(232,168,0,.15),rgba(107,47,160,.15));
+  border:1px solid rgba(232,168,0,.2);
+}
+.service-card h3 {
+  font-family:'Playfair Display',serif; font-size:1.2rem; font-weight:700;
+  color:var(--text); margin-bottom:12px; line-height:1.3;
+}
+.service-card p { color:var(--text-muted); font-size:.9rem; line-height:1.7; }
+.service-tag {
+  display:inline-block; margin-top:18px; font-size:.72rem; letter-spacing:.1em;
+  text-transform:uppercase; color:var(--gold); background:rgba(232,168,0,.1);
+  border:1px solid rgba(232,168,0,.2); padding:3px 12px; border-radius:50px;
+}
+
+/* ===== WHY US ===== */
+#why { background:var(--dark-2); }
+.why-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; max-width:1200px; margin:0 auto; }
+.why-cards { display:flex; flex-direction:column; gap:20px; }
+.why-card {
+  display:flex; gap:18px; align-items:flex-start;
+  background:var(--dark-3); border:1px solid rgba(107,47,160,.2);
+  border-radius:var(--radius); padding:24px;
+  transition:border-color .3s, transform .3s;
+}
+.why-card:hover { border-color:var(--purple-mid); transform:translateX(8px); }
+.why-icon {
+  width:48px; height:48px; flex-shrink:0; border-radius:12px;
+  background:linear-gradient(135deg,var(--gold-dark),var(--purple));
+  display:flex; align-items:center; justify-content:center; font-size:1.3rem;
+}
+.why-card h4 { font-size:1rem; font-weight:700; margin-bottom:6px; }
+.why-card p { font-size:.875rem; color:var(--text-muted); line-height:1.65; }
+
+/* ===== INDUSTRIES ===== */
+#industries { background:var(--dark); }
+.industries-header { text-align:center; margin-bottom:56px; }
+.industries-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; max-width:1100px; margin:0 auto; }
+.industry-pill {
+  background:var(--dark-3); border:1px solid rgba(107,47,160,.2);
+  border-radius:var(--radius); padding:24px 20px; text-align:center;
+  transition:all .3s; position:relative; overflow:hidden;
+}
+.industry-pill:hover { border-color:var(--gold); transform:scale(1.04); }
+.industry-pill .icon { font-size:2rem; margin-bottom:10px; }
+.industry-pill span { font-size:.9rem; font-weight:500; color:var(--text-muted); }
+.industry-pill:hover span { color:var(--text); }
+
+/* ===== PROCESS ===== */
+#process { background:var(--dark-2); }
+.process-header { text-align:center; margin-bottom:64px; }
+.process-steps {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:0; max-width:1100px; margin:0 auto; position:relative;
+}
+.process-steps::before {
+  content:''; position:absolute; top:36px; left:10%; right:10%; height:2px;
+  background:linear-gradient(90deg,var(--gold),var(--purple-light));
+  z-index:0;
+}
+.step { text-align:center; padding:0 24px; position:relative; z-index:1; }
+.step-num {
+  width:72px; height:72px; border-radius:50%; margin:0 auto 24px;
+  background:linear-gradient(135deg,var(--gold),var(--purple));
+  display:flex; align-items:center; justify-content:center;
+  font-family:'Playfair Display',serif; font-size:1.5rem; font-weight:900; color:#fff;
+  box-shadow:0 8px 24px rgba(107,47,160,.4);
+  border:3px solid var(--dark-2);
+}
+.step h4 { font-size:1rem; font-weight:700; margin-bottom:8px; }
+.step p { font-size:.85rem; color:var(--text-muted); line-height:1.65; }
+
+/* ===== TESTIMONIALS ===== */
+#testimonials { background:var(--dark); }
+.testimonials-header { text-align:center; margin-bottom:56px; }
+.testimonials-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:24px; max-width:1100px; margin:0 auto; }
+.testi-card {
+  background:var(--dark-3); border:1px solid rgba(107,47,160,.2);
+  border-radius:var(--radius); padding:32px; position:relative; overflow:hidden;
+  transition:transform .3s, border-color .3s;
+}
+.testi-card:hover { transform:translateY(-6px); border-color:rgba(232,168,0,.4); }
+.testi-card::before {
+  content:'"'; position:absolute; top:12px; right:20px;
+  font-family:'Playfair Display',serif; font-size:6rem; line-height:1;
+  color:rgba(232,168,0,.08); font-weight:900;
+}
+.stars { color:var(--gold); font-size:1rem; margin-bottom:16px; }
+.testi-text { font-size:.9rem; color:var(--text-muted); line-height:1.75; margin-bottom:22px; font-style:italic; }
+.testi-author { display:flex; align-items:center; gap:12px; }
+.testi-avatar {
+  width:44px; height:44px; border-radius:50%;
+  background:linear-gradient(135deg,var(--gold-dark),var(--purple));
+  display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1rem; color:#fff;
+}
+.testi-name { font-weight:700; font-size:.9rem; }
+.testi-role { font-size:.78rem; color:var(--text-muted); }
+
+/* ===== CTA BAND ===== */
+#cta-band {
+  background:linear-gradient(135deg,var(--dark-3) 0%,rgba(107,47,160,.3) 50%,var(--dark-3) 100%);
+  border-top:1px solid rgba(232,168,0,.15); border-bottom:1px solid rgba(232,168,0,.15);
+  padding:80px 6%; text-align:center;
+}
+#cta-band h2 {
+  font-family:'Playfair Display',serif; font-size:clamp(1.8rem,4vw,3rem);
+  font-weight:900; margin-bottom:16px;
+}
+#cta-band p { color:var(--text-muted); font-size:1.05rem; margin-bottom:40px; }
+.cta-band-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+
+/* ===== CONTACT ===== */
+#contact { background:var(--dark-2); }
+.contact-grid { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:start; max-width:1100px; margin:0 auto; }
+.contact-info h3 { font-family:'Playfair Display',serif; font-size:1.8rem; margin-bottom:20px; }
+.contact-info p { color:var(--text-muted); line-height:1.75; margin-bottom:32px; }
+.contact-items { display:flex; flex-direction:column; gap:20px; }
+.contact-item { display:flex; align-items:center; gap:16px; }
+.contact-icon {
+  width:48px; height:48px; flex-shrink:0; border-radius:12px;
+  background:linear-gradient(135deg,rgba(232,168,0,.15),rgba(107,47,160,.15));
+  border:1px solid rgba(232,168,0,.2); display:flex; align-items:center; justify-content:center; font-size:1.2rem;
+}
+.contact-item-text strong { display:block; font-size:.85rem; color:var(--gold); text-transform:uppercase; letter-spacing:.06em; margin-bottom:2px; }
+.contact-item-text span { font-size:.9rem; color:var(--text-muted); }
+.contact-form { background:var(--dark-3); border:1px solid rgba(107,47,160,.2); border-radius:var(--radius-lg); padding:40px; }
+.form-group { margin-bottom:20px; }
+.form-group label { display:block; font-size:.8rem; letter-spacing:.08em; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px; }
+.form-group input, .form-group select, .form-group textarea {
+  width:100%; background:var(--dark-2); border:1px solid rgba(107,47,160,.25);
+  border-radius:10px; padding:14px 16px; color:var(--text); font-family:'DM Sans',sans-serif;
+  font-size:.95rem; outline:none; transition:border-color .25s;
+}
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color:var(--gold);
+}
+.form-group select option { background:var(--dark-2); }
+.form-group textarea { resize:vertical; min-height:110px; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.btn-submit {
+  width:100%; background:linear-gradient(135deg,var(--gold),var(--gold-dark));
+  color:#0D0A1A; border:none; padding:15px; border-radius:50px;
+  font-weight:700; font-size:1rem; cursor:pointer; letter-spacing:.04em;
+  text-transform:uppercase; transition:transform .2s, box-shadow .2s;
+}
+.btn-submit:hover { transform:translateY(-2px); box-shadow:0 10px 30px rgba(232,168,0,.35); }
+
+/* ===== FOOTER ===== */
+footer {
+  background:var(--dark); border-top:1px solid rgba(232,168,0,.1);
+  padding:64px 6% 32px;
+}
+.footer-grid { display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:48px; margin-bottom:48px; }
+.footer-brand .nav-logo { margin-bottom:18px; }
+.footer-brand p { color:var(--text-muted); font-size:.88rem; line-height:1.7; max-width:280px; }
+.footer-socials { display:flex; gap:12px; margin-top:22px; }
+.social-btn {
+  width:38px; height:38px; border-radius:10px;
+  background:var(--dark-3); border:1px solid rgba(107,47,160,.3);
+  display:flex; align-items:center; justify-content:center; font-size:1rem;
+  text-decoration:none; transition:all .25s;
+}
+.social-btn:hover { border-color:var(--gold); transform:translateY(-3px); }
+
+.footer-col h5 { font-size:.8rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); margin-bottom:18px; }
+.footer-col ul { list-style:none; display:flex; flex-direction:column; gap:10px; }
+.footer-col ul li a {
+  text-decoration:none; color:var(--text-muted); font-size:.88rem;
+  transition:color .2s; display:flex; align-items:center; gap:6px;
+}
+.footer-col ul li a:hover { color:var(--text); }
+.footer-col ul li a::before { content:'›'; color:var(--purple-light); }
+
+.footer-bottom {
+  border-top:1px solid rgba(107,47,160,.15); padding-top:28px;
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
+}
+.footer-bottom p { color:var(--text-muted); font-size:.82rem; }
+.footer-bottom a { color:var(--gold); text-decoration:none; }
+
+/* ===== SCROLL REVEAL ===== */
+.reveal {
+  opacity:0; transform:translateY(32px);
+  transition:opacity .7s ease, transform .7s ease;
+}
+.reveal.visible { opacity:1; transform:translateY(0); }
+
+/* ===== BACK TO TOP ===== */
+#back-top {
+  position:fixed; bottom:32px; right:32px; z-index:999;
+  width:48px; height:48px; border-radius:50%;
+  background:linear-gradient(135deg,var(--gold),var(--purple));
+  display:flex; align-items:center; justify-content:center;
+  color:#fff; font-size:1.1rem; cursor:pointer; border:none;
+  opacity:0; transform:translateY(20px); transition:all .3s;
+  box-shadow:0 6px 20px rgba(107,47,160,.5);
+}
+#back-top.show { opacity:1; transform:translateY(0); }
+#back-top:hover { transform:translateY(-4px) scale(1.05); }
+
+/* ===== MOBILE NAV ===== */
+.mobile-menu {
+  position:fixed; inset:0; z-index:999; background:var(--dark-2);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:36px;
+  transform:translateX(100%); transition:transform .4s cubic-bezier(.4,0,.2,1);
+}
+.mobile-menu.open { transform:translateX(0); }
+.mobile-menu a { font-size:1.5rem; color:var(--text); text-decoration:none; font-family:'Playfair Display',serif; }
+.mobile-menu a:hover { color:var(--gold); }
+.close-menu { position:absolute; top:24px; right:28px; font-size:1.6rem; background:none; border:none; color:var(--text); cursor:pointer; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width:900px) {
+  .about-grid, .why-grid, .contact-grid { grid-template-columns:1fr; gap:48px; }
+  .footer-grid { grid-template-columns:1fr 1fr; }
+  .process-steps::before { display:none; }
+  .floating-badge { display:none; }
+}
+@media (max-width:640px) {
+  nav { padding:14px 5%; }
+  .nav-links, .nav-cta { display:none; }
+  .hamburger { display:flex; }
+  section { padding:72px 5%; }
+  .footer-grid { grid-template-columns:1fr; }
+  .form-row { grid-template-columns:1fr; }
+  .hero-stats { gap:28px; }
+  .stat-num { font-size:1.8rem; }
+  .process-steps { grid-template-columns:1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-menu" onclick="closeMobile()">✕</button>
+  <a href="#about" onclick="closeMobile()">About</a>
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#why" onclick="closeMobile()">Why Us</a>
+  <a href="#process" onclick="closeMobile()">Process</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">
+    <img src="/mnt/user-data/uploads/1774798608827_image.png" alt="FameBridge Logo"/>
+    <div class="nav-logo-text"><span>Fame</span><span>Bridge</span></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#why">Why Us</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#testimonials">Clients</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Get Started</a>
+  <div class="hamburger" onclick="openMobile()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-content">
+    <div class="hero-tag"><span></span>India's Trusted Brand Builders</div>
+    <h1 class="hero-h1">
+      Building Bridges<br/>to Your <span class="gold">Fame</span> &amp;<br/><span class="purple">Success</span>
+    </h1>
+    <p class="hero-sub">
+      From digital campaigns to political strategies — FameBridge delivers
+      360° advertising, PR, and consultancy solutions that put your brand
+      exactly where it needs to be.
+    </p>
+    <div class="hero-btns">
+      <a href="#services" class="btn-primary">Explore Services</a>
+      <a href="#contact" class="btn-outline">Talk to Us</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">500+</div><div class="stat-label">Campaigns Run</div></div>
+      <div class="stat"><div class="stat-num">8+</div><div class="stat-label">Years Experience</div></div>
+      <div class="stat"><div class="stat-num">300+</div><div class="stat-label">Happy Clients</div></div>
+      <div class="stat"><div class="stat-num">15+</div><div class="stat-label">Service Verticals</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-visual reveal">
+      <div class="about-card-main">
+        <img src="/mnt/user-data/uploads/1774798608827_image.png" alt="FameBridge Logo" class="about-logo"/>
+        <div class="about-tagline">Advertising • PR • Consultancy</div>
+      </div>
+      <div class="floating-badge floating-badge-1">⭐ Top PR Agency 2024</div>
+      <div class="floating-badge floating-badge-2">🏆 300+ Brand Success Stories</div>
+    </div>
+    <div class="about-text reveal">
+      <span class="section-label">Who We Are</span>
+      <h2 class="section-title">Your Brand's <span class="accent">Strategic Partner</span></h2>
+      <p class="section-sub">
+        FameBridge is a full-service advertising, PR & consultancy firm dedicated to
+        amplifying your brand's presence — online, offline, and in the media. We blend
+        creative storytelling with data-driven strategy to deliver results that matter.
+      </p>
+      <ul class="about-features">
+        <li>End-to-end brand strategy & identity development</li>
+        <li>Digital + traditional media expertise under one roof</li>
+        <li>Specialized in political, healthcare & education sectors</li>
+        <li>Transparent reporting & measurable ROI on every campaign</li>
+        <li>Dedicated relationship managers for every client</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header reveal">
+    <span class="section-label">What We Offer</span>
+    <h2 class="section-title">Our <span class="accent">Services</span></h2>
+    <div class="divider"></div>
+    <p class="section-sub" style="margin:0 auto;">
+      Comprehensive solutions crafted to elevate your brand at every touchpoint —
+      digital, print, broadcast &amp; beyond.
+    </p>
+  </div>
+  <div class="services-grid">
+
+    <div class="service-card reveal">
+      <div class="service-icon">📱</div>
+      <h3>Social Media Management</h3>
+      <p>End-to-end management of your social channels — content creation, scheduling, engagement, and growth analytics across Instagram, Facebook, YouTube & more.</p>
+      <span class="service-tag">Digital</span>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">📢</div>
+      <h3>Online Ads</h3>
+      <p>High-ROI advertising campaigns on Facebook & Google — targeted audience segmentation, creative ad copy, A/B testing, and conversion optimization.</p>
+      <span class="service-tag">Performance</span>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">🏙️</div>
+      <h3>Offline Advertising</h3>
+      <p>Hoarding, newspaper insertions, banners, pamphlets & more. Maximum visibility in your city with strategic placement for mass awareness campaigns.</p>
+      <span class="service-tag">Out-of-Home</span>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">📰</div>
+      <h3>PR & Media Coverage</h3>
+      <p>Press releases, journalist outreach, news placements, and reputation management. Get your story featured in leading publications and media houses.</p>
+      <span class="service-tag">Public Relations</span>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">🗳️</div>
+      <h3>Political Campaign Management</h3>
+      <p>360° political communication — voter outreach, booth management, social media presence, rallies, and ground-level campaign strategy for elections.</p>
+      <span class="service-tag">Political</span>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">🏥</div>
+      <h3>Hospital & Clinic Branding</h3>
+      <p>Specialized healthcare marketing — patient trust building, digital presence, OPD promotion, doctor profiling, and reputation management for hospitals & clinics.</p>
+      <span class="service-tag">Healthcare</span>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">🎓</div>
+      <h3>Education Institute Promotion</h3>
+      <p>Admission campaigns, school/college branding, scholarship promotions, and digital outreach strategies designed specifically for educational institutions.</p>
+      <span class="service-tag">Education</span>
+    </div>
+
+    <div class="service-card reveal">
+      <div class="service-icon">💻</div>
+      <h3>Website & App Development</h3>
+      <p>Modern, mobile-first websites and custom mobile apps — from landing pages to full-scale portals. Built for speed, design, and conversion.</p>
+      <span class="service-tag">Tech</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY US -->
+<section id="why">
+  <div class="why-grid">
+    <div class="reveal">
+      <span class="section-label">Why FameBridge</span>
+      <h2 class="section-title">What Makes Us <span class="accent">Different</span></h2>
+      <p class="section-sub">
+        We're not just another agency — we're your brand's long-term partner.
+        Every campaign we run is backed by strategy, creativity, and a relentless
+        commitment to results.
+      </p>
+      <div style="margin-top:36px;">
+        <a href="#contact" class="btn-primary">Start Your Journey</a>
+      </div>
+    </div>
+    <div class="why-cards reveal">
+      <div class="why-card">
+        <div class="why-icon">🎯</div>
+        <div>
+          <h4>Targeted Strategy</h4>
+          <p>We analyze your audience deeply before spending a single rupee — ensuring every campaign hits its mark with precision.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">🌐</div>
+        <div>
+          <h4>360° Approach</h4>
+          <p>Online & offline, PR & performance — we handle all channels so your brand speaks one unified, powerful voice.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">📊</div>
+        <div>
+          <h4>Transparent Reporting</h4>
+          <p>Real-time dashboards and monthly reports — you always know exactly what's happening with your campaigns.</p>
+        </div>
+      </div>
+      <div class="why-card">
+        <div class="why-icon">⚡</div>
+        <div>
+          <h4>Rapid Execution</h4>
+          <p>We move fast. From strategy to launch in days — not weeks. Your opportunities don't wait, and neither do we.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section id="industries">
+  <div class="industries-header reveal">
+    <span class="section-label">Industries We Serve</span>
+    <h2 class="section-title">Built for Every <span class="accent">Sector</span></h2>
+    <div class="divider"></div>
+  </div>
+  <div class="industries-grid reveal">
+    <div class="industry-pill"><div class="icon">🏥</div><span>Healthcare</span></div>
+    <div class="industry-pill"><div class="icon">🎓</div><span>Education</span></div>
+    <div class="industry-pill"><div class="icon">🗳️</div><span>Politics</span></div>
+    <div class="industry-pill"><div class="icon">🏢</div><span>Real Estate</span></div>
+    <div class="industry-pill"><div class="icon">🛍️</div><span>Retail & FMCG</span></div>
+    <div class="industry-pill"><div class="icon">🍽️</div><span>Food & Hospitality</span></div>
+    <div class="industry-pill"><div class="icon">💰</div><span>Finance & Banking</span></div>
+    <div class="industry-pill"><div class="icon">⚙️</div><span>Manufacturing</span></div>
+    <div class="industry-pill"><div class="icon">💎</div><span>Luxury & Lifestyle</span></div>
+    <div class="industry-pill"><div class="icon">🚗</div><span>Automotive</span></div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+  <div class="process-header reveal">
+    <span class="section-label">How We Work</span>
+    <h2 class="section-title">Our <span class="accent">4-Step</span> Process</h2>
+    <div class="divider"></div>
+    <p class="section-sub" style="margin:0 auto;">Simple, transparent, and result-focused — from the first call to campaign success.</p>
+  </div>
+  <div class="process-steps reveal">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h4>Discovery Call</h4>
+      <p>We understand your brand, goals, audience, and current challenges in a deep-dive consultation.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h4>Strategy Blueprint</h4>
+      <p>Our team crafts a custom campaign roadmap — channels, creatives, budget, and KPIs all mapped out.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h4>Execution</h4>
+      <p>We launch, monitor, and optimize across all platforms in real-time with agile adjustments.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h4>Results & Growth</h4>
+      <p>Detailed reporting, ROI analysis, and strategy refinement to fuel ongoing brand growth.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="testimonials-header reveal">
+    <span class="section-label">Client Stories</span>
+    <h2 class="section-title">What Our <span class="accent">Clients Say</span></h2>
+    <div class="divider"></div>
+  </div>
+  <div class="testimonials-grid reveal">
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p class="testi-text">FameBridge transformed our hospital's digital presence completely. Our OPD enquiries tripled within three months of working with them. Highly professional team!</p>
+      <div class="testi-author">
+        <div class="testi-avatar">DR</div>
+        <div>
+          <div class="testi-name">Dr. Rajesh Sharma</div>
+          <div class="testi-role">Director, Sharma Multispeciality Hospital</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p class="testi-text">Their political campaign strategy was exceptional. The ground-level coordination and social media management during our election campaign was top-notch. We won!</p>
+      <div class="testi-author">
+        <div class="testi-avatar">AV</div>
+        <div>
+          <div class="testi-name">Arvind Verma</div>
+          <div class="testi-role">Ward Councillor, Municipal Corporation</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="stars">★★★★★</div>
+      <p class="testi-text">Our college admissions increased by 40% after FameBridge ran our promotion campaign. Their understanding of the education sector is truly impressive.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">PG</div>
+        <div>
+          <div class="testi-name">Prof. Priya Gupta</div>
+          <div class="testi-role">Principal, Sunrise College of Commerce</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<section id="cta-band">
+  <div class="reveal">
+    <span class="section-label">Ready to Grow?</span>
+    <h2>Let's Build Your <span style="color:var(--gold)">Brand Together</span></h2>
+    <p>Book a free strategy consultation — no obligations, just real insights for your brand.</p>
+    <div class="cta-band-btns">
+      <a href="#contact" class="btn-primary">Get Free Consultation</a>
+      <a href="tel:+919999999999" class="btn-outline">📞 Call Now</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="reveal">
+      <span class="section-label">Get In Touch</span>
+      <h3>Let's Start a <span style="color:var(--purple-light)">Conversation</span></h3>
+      <p>Whether you're a startup, hospital, school, politician, or established brand — we'd love to understand your vision and show you how FameBridge can help.</p>
+      <div class="contact-items">
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div class="contact-item-text">
+            <strong>Office</strong>
+            <span>New Delhi, India</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div class="contact-item-text">
+            <strong>Phone</strong>
+            <span>+91 99999 99999</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div class="contact-item-text">
+            <strong>Email</strong>
+            <span>hello@famebridge.in</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">🕐</div>
+          <div class="contact-item-text">
+            <strong>Working Hours</strong>
+            <span>Mon–Sat, 9:00 AM – 7:00 PM</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form reveal">
+      <h4 style="font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:28px;">Send Us a Message</h4>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Your Name</label>
+          <input type="text" placeholder="Rahul Kumar"/>
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" placeholder="+91 98765 43210"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="rahul@example.com"/>
+      </div>
+      <div class="form-group">
+        <label>Service Interested In</label>
+        <select>
+          <option value="">Select a service…</option>
+          <option>Social Media Management</option>
+          <option>Online Ads (Facebook / Google)</option>
+          <option>Offline Advertising</option>
+          <option>PR & Media Coverage</option>
+          <option>Political Campaign Management</option>
+          <option>Hospital & Clinic Branding</option>
+          <option>Education Institute Promotion</option>
+          <option>Website & App Development</option>
+          <option>Multiple / Full Package</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Your Message</label>
+        <textarea placeholder="Tell us about your brand and goals…"></textarea>
+      </div>
+      <button class="btn-submit" onclick="submitForm(this)">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <a href="#hero" class="nav-logo">
+        <img src="/mnt/user-data/uploads/1774798608827_image.png" alt="FameBridge" style="height:44px;"/>
+        <div class="nav-logo-text"><span>Fame</span><span>Bridge</span></div>
+      </a>
+      <p>India's trusted advertising, PR & consultancy partner. We build brands that inspire, campaigns that convert, and reputations that last.</p>
+      <div class="footer-socials">
+        <a class="social-btn" href="#" title="Facebook">📘</a>
+        <a class="social-btn" href="#" title="Instagram">📸</a>
+        <a class="social-btn" href="#" title="LinkedIn">💼</a>
+        <a class="social-btn" href="#" title="YouTube">▶️</a>
+        <a class="social-btn" href="#" title="WhatsApp">💬</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h5>Services</h5>
+      <ul>
+        <li><a href="#services">Social Media Management</a></li>
+        <li><a href="#services">Online Advertising</a></li>
+        <li><a href="#services">Offline Advertising</a></li>
+        <li><a href="#services">PR & Media Coverage</a></li>
+        <li><a href="#services">Website & App Dev</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Sectors</h5>
+      <ul>
+        <li><a href="#industries">Healthcare</a></li>
+        <li><a href="#industries">Education</a></li>
+        <li><a href="#industries">Politics</a></li>
+        <li><a href="#industries">Real Estate</a></li>
+        <li><a href="#industries">Hospitality</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h5>Company</h5>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#why">Why FameBridge</a></li>
+        <li><a href="#process">Our Process</a></li>
+        <li><a href="#testimonials">Client Stories</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 FameBridge. All rights reserved.</p>
+    <p>Crafted with ❤️ in India | <a href="#">Privacy Policy</a> · <a href="#">Terms</a></p>
+  </div>
+</footer>
+
+<!-- BACK TO TOP -->
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// NAV SCROLL
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+  document.getElementById('back-top').classList.toggle('show', window.scrollY > 400);
+});
+
+// MOBILE MENU
+function openMobile() { document.getElementById('mobileMenu').classList.add('open'); }
+function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+// SCROLL REVEAL
+const revealEls = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+revealEls.forEach(el => observer.observe(el));
+
+// FORM SUBMIT
+function submitForm(btn) {
+  btn.textContent = '✓ Message Sent! We\'ll be in touch soon.';
+  btn.style.background = 'linear-gradient(135deg,#22c55e,#16a34a)';
+  btn.disabled = true;
+  setTimeout(() => {
+    btn.textContent = 'Send Message →';
+    btn.style.background = '';
+    btn.disabled = false;
+  }, 4000);
+}
+
+// ACTIVE NAV LINK
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 100) current = s.id;
+  });
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.style.color = a.getAttribute('href') === '#'+current ? 'var(--gold)' : '';
+  });
+});
+</script>
+</body>
+</html>
